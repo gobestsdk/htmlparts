@@ -1,10 +1,9 @@
 package moetemplate
 
 import (
-	"log"
 	"regexp"
-	"strconv"
-	"strings"
+
+	"github.com/golangframework/xstring"
 )
 
 func Render(mainpage string, htmlparts map[string]string, contents map[string]string) string {
@@ -24,27 +23,30 @@ func replaceAll(input string, htmlparts map[string]string, contents map[string]s
 }
 func replace_LoadtemplatePart(input string, key string, value string) string {
 	var regexstr string = `{{LoadTemplate(.{0,20})}}`
-	return replace_regex(regexstr, 15, len(regexstr)-4-14, input, key, value)
+	return replace_regex(regexstr, 15, 15+3, input, key, value)
 }
 
 func Replace_keyvalue(input string, key string, value string) string {
 	var regexstr string = `{{=.{0,20}}}`
-	return replace_regex(regexstr, 3, len(regexstr)-4-1, input, key, value)
+	return replace_regex(regexstr, 3, 3+2, input, key, value)
 }
-func replace_regex(regexstr string, namestart int, namelength int, input string, key string, value string) string {
+
+func Replace_Repeat(input string, key string, value string) string {
+	var regexstr string = `{{Repeat(.{0,20})}}`
+	return replace_regex(regexstr, 9, 9+3, input, key, value)
+}
+
+func replace_regex(regexstr string, namestart int, otherlength int, input string, key string, value string) string {
 	reg := regexp.MustCompile(regexstr)
 	var mc []string
 	mc = reg.FindAllString(input, -1)
 	var result string = input
 	for i := 0; i < len(mc); i++ {
 		var tag string = mc[i]
-		rs := []rune(tag)
-		log.Println(tag + "\t" + strconv.Itoa(namestart) + "\t" + strconv.Itoa(namelength))
-		var str = (rs[namestart:namelength])
-		log.Println(string(str))
-		var pagename = strings.TrimSpace(string(str))
+		var str = xstring.Substring(tag, namestart, len(tag)-otherlength)
+		var pagename = xstring.Trim(str)
 		if key == pagename {
-			result = strings.Replace(result, key, value, -1)
+			result = xstring.Replace(result, tag, value)
 		}
 	}
 	return result
