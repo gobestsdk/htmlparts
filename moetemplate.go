@@ -22,18 +22,18 @@ func replaceAll(input string, htmlparts map[string]string, contents map[string]s
 	return result
 }
 func replace_LoadtemplatePart(input string, key string, value string) string {
-	var regexstr string = `{{LoadTemplate(.{0,20})}}`
-	return replace_regex(regexstr, 15, 15+3, input, key, value)
+	var regexstr string = `<!--{{LoadTemplate(.{0,20})}}-->`
+	return replace_regex(regexstr, 4+15, 15+3+3, input, key, value)
 }
 
 func Replace_keyvalue(input string, key string, value string) string {
-	var regexstr string = `{{=.{0,20}}}`
-	return replace_regex(regexstr, 3, 3+2, input, key, value)
+	var regexstr string = `<!--{{=.{0,20}}}-->`
+	return replace_regex(regexstr, 4+3, 3+2+3, input, key, value)
 }
 
 func Replace_Repeat(input string, key string, value string) string {
-	var regexstr string = `{{Repeat(.{0,20})}}`
-	return replace_regex(regexstr, 9, 9+3, input, key, value)
+	var regexstr string = `<!--{{Repeat(.{0,20})}}-->`
+	return replace_regex(regexstr, 4+9, 9+3+3, input, key, value)
 }
 
 func replace_regex(regexstr string, namestart int, otherlength int, input string, key string, value string) string {
