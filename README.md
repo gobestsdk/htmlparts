@@ -4,7 +4,7 @@ golang的web库
 
 ##一句话概括htmlparts
 html=part1+part2+...partn，一种拼装html模块的模版引擎 
-
+![](/img/htmlparts.png)
 ##基本思想:
 在MVC中，htmlparts充当着呈现view的角色
 
@@ -17,3 +17,5 @@ part文件，顾名思义，是不可以直接呈现给用户的局部html内容
 而html，则是既可以包含其它part，又可以含有html内容。web的control部分，直接每一个网页的url地址，都会对应一个html文件。
 
 part集合和html集合，是m对n的满射。
+ 
+
