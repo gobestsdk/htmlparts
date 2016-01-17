@@ -3,7 +3,7 @@
 golang的web库
 
 ##一句话概括htmlparts
-htmlparts=part1+part2+...partn，一种拼装html模块的模版引擎 
+html=part1+part2+...partn，一种拼装html模块的模版引擎 
 
 ##基本思想:
 在MVC中，htmlparts充当着呈现view的角色
