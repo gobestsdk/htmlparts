@@ -1,11 +1,11 @@
 package htmlparts
 
 import (
+	"os"
+	"io/ioutil"
 	"regexp"
 	"strings"
-
-	"github.com/golangframework/Directory"
-	"github.com/golangframework/File"
+ 
 )
 
 const (
@@ -18,10 +18,26 @@ func Render(mainpage string, htmlparts map[string]string, contents map[string]st
 }
 
 func LoadPartFile(Viewpath string) (htmlparts map[string]string) {
-	PartFiles, partnames, _ := Directory.GetFiles_byregex(Viewpath, ".+.part$")
 	htmlparts = map[string]string{}
-	for i, part := range PartFiles {
-		htmlparts[partnames[i]], _ = File.ReadAllText(part)
+	f,err:=os.Open(Viewpath) 
+	if(err!=nil){
+		return 
+	}
+	fs,err:=f.Readdir(0)
+ 
+	for i, part := range fs {
+		if(part.IsDir()){
+			continue
+		}
+		if m,err:=regexp.Match( ".+.part$",[]byte(part.Name()));m{
+			i,er:=ioutil.ReadFile(part)
+			if(er==nil){
+				htmlparts[partnames[i]]  =  string(i)
+			}
+		}
+		
+		
+		
 	}
 	return htmlparts
 }
